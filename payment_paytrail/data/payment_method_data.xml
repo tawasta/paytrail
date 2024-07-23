@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="payment.payment_method_paytrail" model="payment.method">
+        <field name="supported_country_ids" eval="[Command.set([])]" />
+    </record>
+
+    <record id="payment_icon_aktia" model="payment.method">
+        <field name="name">Aktia</field>
+        <field name="code">aktia</field>
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_paytrail/static/img/aktia.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+        <field
+            name="supported_country_ids"
+            eval="[Command.set([
+                         ref('base.fi'),
+                     ])]"
+        />
+        <field
+            name="supported_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_paytrail')"
+        />
+    </record>
+
+    <record id="payment_icon_alandsbanken" model="payment.method">
+        <field name="name">Ålandsbanken</field>
+        <field name="code">ålandsbanken</field>
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_paytrail/static/img/alandsbanken.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+        <field
+            name="supported_country_ids"
+            eval="[Command.set([
+                         ref('base.fi'),
+                     ])]"
+        />
+        <field
+            name="supported_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_paytrail')"
+        />
+    </record>
+
+    <record id="payment_icon_applepay" model="payment.method">
+        <field name="name">Apple pay</field>
+        <field name="code">apple_pay</field>
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_paytrail/static/img/apple-pay.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+        <field
+            name="supported_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_paytrail')"
+        />
+    </record>
+
+    <record id="payment_icon_danskebank" model="payment.method">
+        <field name="name">Danske Bank</field>
+        <field name="code">danske_bank</field>
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_paytrail/static/img/danske-bank.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+        <field
+            name="supported_country_ids"
+            eval="[Command.set([
+                         ref('base.fi'),
+                     ])]"
+        />
+        <field
+            name="supported_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_paytrail')"
+        />
+    </record>
+
+    <record id="payment_icon_handelsbanken" model="payment.method">
+        <field name="name">Handelsbanken</field>
+        <field name="code">handelsbanken</field>
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_paytrail/static/img/handelsbanken.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+        <field
+            name="supported_country_ids"
+            eval="[Command.set([
+                         ref('base.fi'),
+                     ])]"
+        />
+        <field
+            name="supported_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_paytrail')"
+        />
+    </record>
+
+    <record id="payment_icon_jousto" model="payment.method">
+        <field name="name">Jousto</field>
+        <field name="code">jousto</field>
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_paytrail/static/img/jousto.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+        <field
+            name="supported_country_ids"
+            eval="[Command.set([
+                         ref('base.fi'),
+                     ])]"
+        />
+        <field
+            name="supported_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_paytrail')"
+        />
+    </record>
+
+    <record id="payment_icon_mobilepay" model="payment.method">
+        <field name="name">Mobilepay</field>
+        <field name="code">mobilepay</field>
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_paytrail/static/img/mobilepay.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+        <field
+            name="supported_country_ids"
+            eval="[Command.set([
+                         ref('base.fi'),
+                     ])]"
+        />
+        <field
+            name="supported_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_paytrail')"
+        />
+    </record>
+
+    <record id="payment_icon_nordea" model="payment.method">
+        <field name="name">Nordea</field>
+        <field name="code">nordea</field>
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_paytrail/static/img/nordea.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+        <field
+            name="supported_country_ids"
+            eval="[Command.set([
+                         ref('base.fi'),
+                     ])]"
+        />
+        <field
+            name="supported_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_paytrail')"
+        />
+    </record>
+
+    <record id="payment_icon_omasaastopankki" model="payment.method">
+        <field name="name">Oma Säästöpankki</field>
+        <field name="code">omasp</field>
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_paytrail/static/img/oma-saastopankki.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+        <field
+            name="supported_country_ids"
+            eval="[Command.set([
+                         ref('base.fi'),
+                     ])]"
+        />
+        <field
+            name="supported_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_paytrail')"
+        />
+    </record>
+
+    <record id="payment_icon_oplasku" model="payment.method">
+        <field name="name">OP Lasku</field>
+        <field name="code">op_lasku</field>
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_paytrail/static/img/op-lasku.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+        <field
+            name="supported_country_ids"
+            eval="[Command.set([
+                         ref('base.fi'),
+                     ])]"
+        />
+        <field
+            name="supported_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_paytrail')"
+        />
+    </record>
+
+    <record id="payment_icon_osuuspankki" model="payment.method">
+        <field name="name">OP</field>
+        <field name="code">OP</field>
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_paytrail/static/img/osuuspankki.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+        <field
+            name="supported_country_ids"
+            eval="[Command.set([
+                         ref('base.fi'),
+                     ])]"
+        />
+        <field
+            name="supported_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_paytrail')"
+        />
+    </record>
+
+    <record id="payment_icon_pivo" model="payment.method">
+        <field name="name">Pivo</field>
+        <field name="code">pivo</field>
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field name="image" type="base64" file="payment_paytrail/static/img/pivo.png" />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+        <field
+            name="supported_country_ids"
+            eval="[Command.set([
+                         ref('base.fi'),
+                     ])]"
+        />
+        <field
+            name="supported_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_paytrail')"
+        />
+    </record>
+
+    <record id="payment_icon_poppankki" model="payment.method">
+        <field name="name">POP Pankki</field>
+        <field name="code">pop_pankki</field>
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_paytrail/static/img/pop-pankki.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+        <field
+            name="supported_country_ids"
+            eval="[Command.set([
+                         ref('base.fi'),
+                     ])]"
+        />
+        <field
+            name="supported_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_paytrail')"
+        />
+    </record>
+
+    <record id="payment_icon_saastopankki" model="payment.method">
+        <field name="name">Säästöpankki</field>
+        <field name="code">saastopankki</field>
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_paytrail/static/img/saastopankki.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+        <field
+            name="supported_country_ids"
+            eval="[Command.set([
+                         ref('base.fi'),
+                     ])]"
+        />
+        <field
+            name="supported_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_paytrail')"
+        />
+    </record>
+
+    <record id="payment_icon_siirto" model="payment.method">
+        <field name="name">Siirto</field>
+        <field name="code">siirto</field>
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_paytrail/static/img/siirto.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+        <field
+            name="supported_country_ids"
+            eval="[Command.set([
+                         ref('base.fi'),
+                     ])]"
+        />
+        <field
+            name="supported_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_paytrail')"
+        />
+    </record>
+
+    <record id="payment_icon_spankki" model="payment.method">
+        <field name="name">S-pankki</field>
+        <field name="code">s-pankki</field>
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_paytrail/static/img/s-pankki.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+        <field
+            name="supported_country_ids"
+            eval="[Command.set([
+                         ref('base.fi'),
+                     ])]"
+        />
+        <field
+            name="supported_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_paytrail')"
+        />
+    </record>
+
+    <record id="payment_icon_visa" model="payment.method">
+        <field name="name">Visa Electron</field>
+        <field name="code">visa_electron</field>
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field name="image" type="base64" file="payment/static/img/visa.png" />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+        <field
+            name="supported_country_ids"
+            eval="[Command.set([
+                         ref('base.fi'),
+                     ])]"
+        />
+        <field
+            name="supported_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_paytrail')"
+        />
+    </record>
+
+    <record id="payment_icon_walley" model="payment.method">
+        <field name="name">Collector</field>
+        <field name="code">collector</field>
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_paytrail/static/img/walley.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+        <field
+            name="supported_country_ids"
+            eval="[Command.set([
+                         ref('base.fi'),
+                     ])]"
+        />
+        <field
+            name="supported_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_paytrail')"
+        />
+    </record>
+
+    <record id="payment_icon_walley_yrityslasku" model="payment.method">
+        <field name="name">Collector B2B</field>
+        <field name="code">collector_b2b</field>
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_paytrail/static/img/walley-yrityslasku.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+        <field
+            name="supported_country_ids"
+            eval="[Command.set([
+                         ref('base.fi'),
+                     ])]"
+        />
+        <field
+            name="supported_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_paytrail')"
+        />
+    </record>
+</odoo>

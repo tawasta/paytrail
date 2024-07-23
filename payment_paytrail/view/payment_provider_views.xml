@@ -1,0 +1,38 @@
+<odoo>
+    <record id="payment_provider_form_paytrail" model="ir.ui.view">
+        <field name="name">payment.provider.form.paytrail</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form" />
+        <field name="arch" type="xml">
+            <group name="provider_credentials" position='inside'>
+                <group invisible="code != 'paytrail'">
+                    <field
+                        name="paytrail_merchant_id"
+                        required="code == 'paytrail' and state != 'disabled'"
+                        decoration-danger="state == 'enabled' and paytrail_merchant_id == '375917'"
+                    />
+                    <field
+                        name="paytrail_merchant_secret"
+                        required="code == 'paytrail' and state != 'disabled'"
+                        decoration-danger="state == 'enabled' and paytrail_merchant_secret == 'SAIPPUAKAUPPIAS'"
+                    />
+                    <field
+                        name="paytrail_base_url"
+                        required="code == 'paytrail' and state != 'disabled'"
+                    />
+                    <field name="paytrail_send_invoice_data_if_no_sale_order" />
+                </group>
+            </group>
+
+            <xpath expr="//a[@name='action_view_payment_methods']" position="after">
+                <button
+                    name="action_paytrail_update_method_brands"
+                    type="object"
+                    string="Auto-enable"
+                    class="oe_highlight"
+                    invisible="code != 'paytrail' or state == 'disabled'"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

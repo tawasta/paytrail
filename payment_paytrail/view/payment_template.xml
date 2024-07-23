@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="0">
+
+    <template id="redirect_form">
+        <form t-att-action="paytrail_url" method="post" />
+    </template>
+</odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="payment_provider_paytrail" model="payment.provider">
+        <field name="name">Paytrail</field>
+        <field name="state">disabled</field>
+        <field
+            name="image_128"
+            type="base64"
+            file="payment_paytrail/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_payment_paytrail" />
+        <field name="code">paytrail</field>
+        <field name="paytrail_merchant_id">375917</field>
+        <field name="paytrail_merchant_secret">SAIPPUAKAUPPIAS</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_paytrail')])]"
+        />
+        <field name="redirect_form_view_id" ref="redirect_form" />
+        <field
+            name="available_currency_ids"
+            eval="[Command.set([
+                         ref('base.EUR'),
+                     ])]"
+        />
+    </record>
+</odoo>

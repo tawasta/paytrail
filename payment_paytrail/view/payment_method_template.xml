@@ -1,0 +1,14 @@
+<odoo>
+    <template
+        id="method_form"
+        inherit_id="payment.method_form"
+        name="Show all payment methods"
+        active="True"
+    >
+        <!-- Disable payment method limit, which is 4 by default -->
+        <xpath expr="//t[@t-call='payment.form_logo']" position="after">
+            <t t-set="pm_index" t-value="0" />
+        </xpath>
+
+    </template>
+</odoo>

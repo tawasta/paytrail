@@ -1,0 +1,124 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* payment_paytrail
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0-20240216\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-08 11:00+0000\n"
+"PO-Revision-Date: 2024-05-08 14:06+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: payment_paytrail
+#: model_terms:ir.ui.view,arch_db:payment_paytrail.payment_provider_form_paytrail
+msgid "Auto-enable"
+msgstr "Automaattinen lisäys"
+
+#. module: payment_paytrail
+#: model:ir.model.fields,field_description:payment_paytrail.field_payment_provider__code
+msgid "Code"
+msgstr "Koodi"
+
+#. module: payment_paytrail
+#: model:ir.model.fields,field_description:payment_paytrail.field_payment_provider__paytrail_merchant_id
+msgid "Merchant ID"
+msgstr "Kauppiastunnus"
+
+#. module: payment_paytrail
+#: model:ir.model.fields,field_description:payment_paytrail.field_payment_provider__paytrail_merchant_secret
+msgid "Merchant secret"
+msgstr "Kauppiasavain"
+
+#. module: payment_paytrail
+#: model:ir.model,name:payment_paytrail.model_payment_provider
+msgid "Payment Provider"
+msgstr "Maksupalveluntarjoaja"
+
+#. module: payment_paytrail
+#: model:ir.model,name:payment_paytrail.model_payment_transaction
+msgid "Payment Transaction"
+msgstr "Maksutapahtuma"
+
+#. module: payment_paytrail
+#: model:ir.model.fields.selection,name:payment_paytrail.selection__payment_provider__code__paytrail
+#: model:payment.provider,name:payment_paytrail.payment_provider_paytrail
+msgid "Paytrail"
+msgstr "Paytrail"
+
+#. module: payment_paytrail
+#: model:ir.model.fields,field_description:payment_paytrail.field_payment_transaction__paytrail_checkout_account
+msgid "Paytrail checkout account"
+msgstr "Paytrail tili"
+
+#. module: payment_paytrail
+#: model:ir.model.fields,field_description:payment_paytrail.field_payment_transaction__paytrail_checkout_provider
+msgid "Paytrail checkout provider"
+msgstr "Paytrail maksupalveluntarjoaja"
+
+#. module: payment_paytrail
+#: model:ir.model.fields,field_description:payment_paytrail.field_payment_transaction__paytrail_checkout_stamp
+msgid "Paytrail checkout stamp"
+msgstr "Paytrail tapahtumatunniste"
+
+#. module: payment_paytrail
+#: model:ir.model.fields,field_description:payment_paytrail.field_payment_provider__paytrail_base_url
+msgid "Return address"
+msgstr "Paluuosoite"
+
+#. module: payment_paytrail
+#: model:ir.model.fields,field_description:payment_paytrail.field_payment_provider__send_email
+msgid "Send Email"
+msgstr "Lähetä sähköposti"
+
+#. module: payment_paytrail
+#: model:ir.model.fields,field_description:payment_paytrail.field_payment_provider__paytrail_send_invoice_data_if_no_sale_order
+msgid "Send Invoice Data if no Sale Order Exists"
+msgstr "Lähetä laskudata, jos myyntitilausta ei ole"
+
+#. module: payment_paytrail
+#: model:ir.model.fields,help:payment_paytrail.field_payment_provider__send_email
+msgid "Sends purchase confirmation email to customers"
+msgstr "Lähettää tilausvahvistussähköpostin asiakkaille"
+
+#. module: payment_paytrail
+#: model:ir.model.fields,help:payment_paytrail.field_payment_provider__code
+msgid "The technical code of this payment provider."
+msgstr "Tämän maksupalveluntarjoajan tekninen koodi."
+
+#. module: payment_paytrail
+#: model:ir.model.fields,help:payment_paytrail.field_payment_provider__paytrail_send_invoice_data_if_no_sale_order
+msgid ""
+"When sending data to Paytrail, if a related Sale Order does not exist, look "
+"for customer, monetary amount etc. data from a related Invoice instead. Can "
+"be toggled on if dealing with e.g. invoices that have originated from "
+"Contracts and do not have a Sale Order."
+msgstr ""
+
+#. module: payment_paytrail
+#: model_terms:payment.provider,auth_msg:payment_paytrail.payment_provider_paytrail
+msgid "Your payment has been authorized."
+msgstr "Maksusi on autorisoitu."
+
+#. module: payment_paytrail
+#: model_terms:payment.provider,cancel_msg:payment_paytrail.payment_provider_paytrail
+msgid "Your payment has been cancelled."
+msgstr "Maksusi on peruttu."
+
+#. module: payment_paytrail
+#: model_terms:payment.provider,pending_msg:payment_paytrail.payment_provider_paytrail
+msgid ""
+"Your payment has been successfully processed but is waiting for approval."
+msgstr "Maksusi on käsitelty onnistuneesti, ja odottaa hyväksyntääsi."
+
+#. module: payment_paytrail
+#: model_terms:payment.provider,done_msg:payment_paytrail.payment_provider_paytrail
+msgid "Your payment has been successfully processed."
+msgstr "Maksusi on käsitelty onnistuneesti."
