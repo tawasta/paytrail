@@ -53,7 +53,7 @@ repos:
           - --addons-dir=.
           - --branch=17.0
           - --org-name=Tawasta
-          - --repo-name=server-tools
+          - --repo-name=paytrail
           - --if-source-changed
           - --keep-source-digest
           - --convert-fragments-to-markdown
