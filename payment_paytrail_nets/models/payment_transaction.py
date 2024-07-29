@@ -8,7 +8,7 @@ from odoo.exceptions import ValidationError
 from odoo.http import request
 
 from odoo.addons.payment import utils as payment_utils
-from odoo.addons.payment_paytrail.controllers.main import PaytrailController
+from odoo.addons.payment_paytrail_nets.controllers.main import PaytrailController
 
 _logger = logging.getLogger(__name__)
 

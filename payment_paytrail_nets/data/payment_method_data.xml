@@ -12,7 +12,7 @@
         <field
             name="image"
             type="base64"
-            file="payment_paytrail/static/img/aktia.png"
+            file="payment_paytrail_nets/static/img/aktia.png"
         />
         <field name="support_tokenization">False</field>
         <field name="support_express_checkout">False</field>
@@ -43,7 +43,7 @@
         <field
             name="image"
             type="base64"
-            file="payment_paytrail/static/img/alandsbanken.png"
+            file="payment_paytrail_nets/static/img/alandsbanken.png"
         />
         <field name="support_tokenization">False</field>
         <field name="support_express_checkout">False</field>
@@ -74,7 +74,7 @@
         <field
             name="image"
             type="base64"
-            file="payment_paytrail/static/img/apple-pay.png"
+            file="payment_paytrail_nets/static/img/apple-pay.png"
         />
         <field name="support_tokenization">False</field>
         <field name="support_express_checkout">False</field>
@@ -99,7 +99,7 @@
         <field
             name="image"
             type="base64"
-            file="payment_paytrail/static/img/danske-bank.png"
+            file="payment_paytrail_nets/static/img/danske-bank.png"
         />
         <field name="support_tokenization">False</field>
         <field name="support_express_checkout">False</field>
@@ -130,7 +130,7 @@
         <field
             name="image"
             type="base64"
-            file="payment_paytrail/static/img/handelsbanken.png"
+            file="payment_paytrail_nets/static/img/handelsbanken.png"
         />
         <field name="support_tokenization">False</field>
         <field name="support_express_checkout">False</field>
@@ -161,7 +161,7 @@
         <field
             name="image"
             type="base64"
-            file="payment_paytrail/static/img/jousto.png"
+            file="payment_paytrail_nets/static/img/jousto.png"
         />
         <field name="support_tokenization">False</field>
         <field name="support_express_checkout">False</field>
@@ -192,7 +192,7 @@
         <field
             name="image"
             type="base64"
-            file="payment_paytrail/static/img/mobilepay.png"
+            file="payment_paytrail_nets/static/img/mobilepay.png"
         />
         <field name="support_tokenization">False</field>
         <field name="support_express_checkout">False</field>
@@ -223,7 +223,7 @@
         <field
             name="image"
             type="base64"
-            file="payment_paytrail/static/img/nordea.png"
+            file="payment_paytrail_nets/static/img/nordea.png"
         />
         <field name="support_tokenization">False</field>
         <field name="support_express_checkout">False</field>
@@ -254,7 +254,7 @@
         <field
             name="image"
             type="base64"
-            file="payment_paytrail/static/img/oma-saastopankki.png"
+            file="payment_paytrail_nets/static/img/oma-saastopankki.png"
         />
         <field name="support_tokenization">False</field>
         <field name="support_express_checkout">False</field>
@@ -285,7 +285,7 @@
         <field
             name="image"
             type="base64"
-            file="payment_paytrail/static/img/op-lasku.png"
+            file="payment_paytrail_nets/static/img/op-lasku.png"
         />
         <field name="support_tokenization">False</field>
         <field name="support_express_checkout">False</field>
@@ -316,7 +316,7 @@
         <field
             name="image"
             type="base64"
-            file="payment_paytrail/static/img/osuuspankki.png"
+            file="payment_paytrail_nets/static/img/osuuspankki.png"
         />
         <field name="support_tokenization">False</field>
         <field name="support_express_checkout">False</field>
@@ -344,7 +344,11 @@
         <field name="code">pivo</field>
         <field name="sequence">1000</field>
         <field name="active">False</field>
-        <field name="image" type="base64" file="payment_paytrail/static/img/pivo.png" />
+        <field
+            name="image"
+            type="base64"
+            file="payment_paytrail_nets/static/img/pivo.png"
+        />
         <field name="support_tokenization">False</field>
         <field name="support_express_checkout">False</field>
         <field name="support_refund">partial</field>
@@ -374,7 +378,7 @@
         <field
             name="image"
             type="base64"
-            file="payment_paytrail/static/img/pop-pankki.png"
+            file="payment_paytrail_nets/static/img/pop-pankki.png"
         />
         <field name="support_tokenization">False</field>
         <field name="support_express_checkout">False</field>
@@ -405,7 +409,7 @@
         <field
             name="image"
             type="base64"
-            file="payment_paytrail/static/img/saastopankki.png"
+            file="payment_paytrail_nets/static/img/saastopankki.png"
         />
         <field name="support_tokenization">False</field>
         <field name="support_express_checkout">False</field>
@@ -436,7 +440,7 @@
         <field
             name="image"
             type="base64"
-            file="payment_paytrail/static/img/siirto.png"
+            file="payment_paytrail_nets/static/img/siirto.png"
         />
         <field name="support_tokenization">False</field>
         <field name="support_express_checkout">False</field>
@@ -467,7 +471,7 @@
         <field
             name="image"
             type="base64"
-            file="payment_paytrail/static/img/s-pankki.png"
+            file="payment_paytrail_nets/static/img/s-pankki.png"
         />
         <field name="support_tokenization">False</field>
         <field name="support_express_checkout">False</field>
@@ -525,7 +529,7 @@
         <field
             name="image"
             type="base64"
-            file="payment_paytrail/static/img/walley.png"
+            file="payment_paytrail_nets/static/img/walley.png"
         />
         <field name="support_tokenization">False</field>
         <field name="support_express_checkout">False</field>
@@ -556,7 +560,7 @@
         <field
             name="image"
             type="base64"
-            file="payment_paytrail/static/img/walley-yrityslasku.png"
+            file="payment_paytrail_nets/static/img/walley-yrityslasku.png"
         />
         <field name="support_tokenization">False</field>
         <field name="support_express_checkout">False</field>
