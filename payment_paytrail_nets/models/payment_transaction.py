@@ -154,7 +154,7 @@ class PaymentTransaction(models.Model):
 
         else:
             # If SO not found, check invoice second, if configured in settings.
-            if not self.paytrail_send_invoice_data_if_no_sale_order:
+            if not self.provider_id.paytrail_send_invoice_data_if_no_sale_order:
                 raise ValidationError(_("Only one sale order for payment is supported"))
 
             _logger.debug(
