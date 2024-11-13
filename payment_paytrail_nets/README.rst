@@ -64,16 +64,16 @@ Credits
 Authors
 -------
 
-* Tawasta
+* Futural
 
 Contributors
 ------------
 
--  Aleksi Savijoki <aleksi.savijoki@tawasta.fi>
+-  Aleksi Savijoki <aleksi.savijoki@futural.fi>
 -  Jaakko Komulainen <jaakko.komulainen@vizucom.com>
--  Jarmo Kortetjärvi <jarmo.kortetjarvi@tawasta.fi>
--  Valtteri Lattu <valtteri.lattu@tawasta.fi>
--  Timo Talvitie <timo.talvitie@tawasta.fi>
+-  Jarmo Kortetjärvi <jarmo.kortetjarvi@futural.fi>
+-  Valtteri Lattu <valtteri.lattu@futural.fi>
+-  Timo Talvitie <timo.talvitie@futural.fi>
 
 Maintainers
 -----------

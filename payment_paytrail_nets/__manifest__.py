@@ -1,7 +1,7 @@
 ##############################################################################
 #
-#    Author: Oy Tawasta OS Technologies Ltd.
-#    Copyright 2013- Tawasta Oy (https://tawasta.fi)
+#    Author: Futural Oy
+#    Copyright 2013- Futural Oy (https://futural.fi)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Lesser General Public License as
@@ -25,7 +25,7 @@
     "development_status": "Production/Stable",
     "category": "Accounting/Payment Providers",
     "website": "https://github.com/Tawasta/paytrail",
-    "author": "Tawasta",
+    "author": "Futural",
     "license": "LGPL-3",
     "depends": ["payment"],
     "data": [

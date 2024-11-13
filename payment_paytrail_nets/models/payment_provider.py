@@ -54,7 +54,7 @@ class PaymentProvider(models.Model):
             "checkout-method": "GET",
             "checkout-nonce": str(uuid.uuid4()),
             "checkout-timestamp": fields.Datetime.now().isoformat(),
-            "platform-name": "Tawasta Odoo",
+            "platform-name": "futural_odoo",
         }
 
         if payload != "":
