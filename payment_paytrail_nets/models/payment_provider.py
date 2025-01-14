@@ -108,7 +108,8 @@ class PaymentProvider(models.Model):
                         "|",
                         ("name", "=ilike", paytrail_method.get("name")),
                         ("code", "=ilike", paytrail_method.get("name")),
-                    ]
+                    ],
+                    limit=1,
                 )
                 if method_id:
                     paytrail_method = self.env.ref("payment.payment_method_paytrail")
