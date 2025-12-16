@@ -434,55 +434,64 @@ class PaymentTransaction(models.Model):
         _logger.debug(f"TX values: {paytrail_tx_values}")
         return paytrail_tx_values
 
-    def _get_tx_from_notification_data(self, provider_code, notification_data):
-        """Override of payment to find the transaction based on Paytrail data.
+    def _extract_reference(self, provider_code, payment_data):
+        """Extract the transaction reference from the payment data.
 
-        :param str provider_code: The code of the provider that handled the transaction
-        :param dict notification_data: The notification data sent by the provider
-        :return: The transaction if found
-        :rtype: recordset of `payment.transaction`
-        :raise: ValidationError if inconsistent data were received
-        :raise: ValidationError if the data match no transaction
+        This method must be overridden by providers to extract the reference from the payment data.
+
+        :param str provider_code: The code of the provider handling the transaction.
+        :param dict payment_data: The payment data sent by the provider.
+        :return: The transaction reference.
+        :rtype: str
         """
-        tx = super()._get_tx_from_notification_data(provider_code, notification_data)
-        if provider_code != "paytrail" or len(tx) == 1:
-            return tx
+        return payment_data.get('checkout-reference')
 
-        reference = notification_data.get("checkout-reference")
-        txn_id = notification_data.get("checkout-transaction-id")
-        if not reference or not txn_id:
-            raise ValidationError(
-                "Paytrail: "
-                + _(
-                    "Received data with missing reference %(r)s or txn_id %(t)s.",
-                    r=reference,
-                    t=txn_id,
-                )
-            )
+    def _extract_amount_data(self, payment_data):
+        """Extract the amount, currency and rounding precision from the payment data.
 
-        tx = self.search(
-            [("reference", "=", reference), ("provider_code", "=", "paytrail")]
-        )
-        if not tx:
-            raise ValidationError(
-                "Paytrail: "
-                + _("No transaction found matching reference %s.", reference)
-            )
+        This method must be overridden by providers to parse the amount data from the payment data.
+        If the provider returns `None`, the amount validation is skipped.
 
-        return tx
+        :param dict payment_data: The payment data sent by the provider.
+        :return: The amount data, in the {amount: float, currency_code: str, precision_digits: int}
+                 format.
+        :rtype: dict|None
+        """
 
-    def _process_notification_data(self, notification_data):
-        """Override of payment to process the transaction based on Paytrail data.
+        precision_digits = 2
 
-        Note: self.ensure_one()
+        # Reverse the string
+        amount_float = payment_data["payment_data"]["checkout-amount"][::-1]
+        # Insert . at decimal place
+        amount_float = amount_float[:precision_digits] + '.' + amount_float[precision_digits:]
+        # Reverse back
+        amount_float = amount_float[::-1]
+        # Convert to float
+        amount_float = float(amount_float)
+        return {
+            "amount": amount_float,
+            "currency_code": "EUR",
+            "precision_digits": precision_digits
+        }
 
-        :param dict notification_data: The notification data sent by the provider
+    def _apply_updates(self, payment_data):
+        """Update the transaction based on the payment data received from the provider.
+
+        The updates typically include the payment's state, the provider reference, and the selected
+        payment method.
+
+        This method should not be called directly; payment data should go through :meth:`_process`.
+
+        This method must be overridden by providers to update the transaction based on the payment
+        data.
+
+        Note: `self.ensure_one()` from :meth:`_process`
+
+        :param dict payment_data: The payment data sent by the provider.
         :return: None
-        :raise: ValidationError if inconsistent data were received
         """
-        _logger.debug(f"Received notification data:\n{notification_data}")
-        super()._process_notification_data(notification_data)
-        if self.provider_code != "paytrail":
+        if payment_data["provider_code"] != "paytrail":
             return
 
-        self._paytrail_form_validate(notification_data)
+        self._paytrail_form_validate(payment_data["payment_data"])
+

@@ -26,11 +26,15 @@ class PaytrailController(http.Controller):
         tx_sudo = (
             request.env["payment.transaction"]
             .sudo()
-            ._get_tx_from_notification_data("paytrail", data)
+            ._search_by_reference("paytrail", data)
         )
         self._verify_notification_signature(data, tx_sudo)
         _logger.debug(f"Signature {data['signature']} valid!")
-        tx_sudo._handle_notification_data("paytrail", data)
+        payment_data = {
+            "provider_code": "paytrail",
+            "payment_data": data,
+        }
+        tx_sudo._process("paytrail", payment_data)
         return request.redirect("/payment/status")
 
     @staticmethod
