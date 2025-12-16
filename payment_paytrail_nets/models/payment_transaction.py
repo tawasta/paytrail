@@ -320,7 +320,7 @@ class PaymentTransaction(models.Model):
         """
         items = []
         for line in order.order_line:
-            vat_percent = sum(line.tax_id.mapped("amount"))
+            vat_percent = sum(line.tax_ids.mapped("amount"))
             quantity = int(round(line.product_uom_qty, 0))
             items.append(
                 {
@@ -329,8 +329,8 @@ class PaymentTransaction(models.Model):
                     "vatPercentage": vat_percent,
                     "productCode": line.product_id.default_code
                     or str(line.product_id.id),
-                    "description": line.product_id.name,
-                    "category": line.product_id.categ_id.display_name,
+                    "description": line.product_id.name or "",
+                    "category": line.product_id.categ_id.display_name or "",
                     # Shop-in-Shop payments
                     # "orderId":
                     # "stamp":
