@@ -1,0 +1,9 @@
+name: Build test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-tests:
+    uses: tawasta/github-workflows/.github/workflows/odoo-build-test.yml@main
+    secrets: inherit

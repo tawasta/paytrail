@@ -24,7 +24,7 @@
     "version": "19.0.1.0.0",
     "development_status": "Production/Stable",
     "category": "Accounting/Payment Providers",
-    "website": "https://github.com/Tawasta/paytrail",
+    "website": "https://github.com/tawasta/paytrail",
     "author": "Futural",
     "license": "LGPL-3",
     "depends": ["payment"],

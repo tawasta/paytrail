@@ -1,6 +1,7 @@
-import logging
 import json
+import logging
 import uuid
+
 import requests
 
 from odoo import _, fields, models
@@ -427,9 +428,9 @@ class PaymentTransaction(models.Model):
         if token.get("status") == "error":
             raise ValidationError(token.get("message"))
         else:
-            paytrail_tx_values[
-                "paytrail_url"
-            ] = f"/payment/paytrail/redirect?url={token.get('href')}"
+            paytrail_tx_values["paytrail_url"] = (
+                f"/payment/paytrail/redirect?url={token.get('href')}"
+            )
 
         _logger.debug(f"TX values: {paytrail_tx_values}")
         return paytrail_tx_values
