@@ -1,10 +1,11 @@
-import logging
-import requests
-import uuid
-import hmac
 import hashlib
+import hmac
+import logging
+import uuid
 
-from odoo import api, fields, models, _
+import requests
+
+from odoo import fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -93,12 +94,16 @@ class PaymentProvider(models.Model):
 
         headers = self._get_paytrail_headers("")
         r = requests.get(
-            "https://services.paytrail.com/merchants/payment-providers", headers=headers
+            "https://services.paytrail.com/merchants/payment-providers",
+            headers=headers,
+            timeout=600,
         )
 
         if r.status_code == 200:
             paytrail_methods = r.json()
-            _logger.info(_("Found %s supported payment methods", len(paytrail_methods)))
+            _logger.info(
+                self.env._("Found %s supported payment methods", len(paytrail_methods))
+            )
             payment_method = self.env["payment.method"]
 
             active_methods = []
@@ -124,15 +129,15 @@ class PaymentProvider(models.Model):
                     active_methods.append(method_id.name)
                 else:
                     _logger.warning(
-                        _(
+                        self.env._(
                             "Could not find payment method %s",
                             paytrail_method.get("name"),
                         )
                     )
         else:
-            _logger.error(_("Error while fetching providers: %s", r.text))
+            _logger.error(self.env._("Error while fetching providers: %s", r.text))
 
-        title = _("Payment method brands enabled!")
+        title = self.env._("Payment method brands enabled!")
         message = ", ".join(active_methods)
         return {
             "type": "ir.actions.client",
