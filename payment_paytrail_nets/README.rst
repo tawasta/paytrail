@@ -69,11 +69,11 @@ Authors
 Contributors
 ------------
 
--  Aleksi Savijoki <aleksi.savijoki@futural.fi>
--  Jaakko Komulainen <jaakko.komulainen@vizucom.com>
--  Jarmo Kortetjärvi <jarmo.kortetjarvi@futural.fi>
--  Valtteri Lattu <valtteri.lattu@futural.fi>
--  Timo Talvitie <timo.talvitie@futural.fi>
+- Aleksi Savijoki <aleksi.savijoki@futural.fi>
+- Jaakko Komulainen <jaakko.komulainen@vizucom.com>
+- Jarmo Kortetjärvi <jarmo.kortetjarvi@futural.fi>
+- Valtteri Lattu <valtteri.lattu@futural.fi>
+- Timo Talvitie <timo.talvitie@futural.fi>
 
 Maintainers
 -----------
