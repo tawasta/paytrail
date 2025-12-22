@@ -4,12 +4,13 @@ import uuid
 
 import requests
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import ValidationError
 from odoo.http import request
 
 from odoo.addons.payment import utils as payment_utils
-from odoo.addons.payment_paytrail_nets.controllers.main import PaytrailController
+
+from payment_paytrail_nets.controllers.main import PaytrailController
 
 _logger = logging.getLogger(__name__)
 
@@ -52,19 +53,23 @@ class PaymentTransaction(models.Model):
 
         if paytrail_status == "fail":
             _logger.info(
-                _("Paytrail payment for tx %s: set as canceled", self.reference)
+                self.env._(
+                    "Paytrail payment for tx %s: set as canceled", self.reference
+                )
             )
             self._set_canceled()
         elif paytrail_status in ["pending", "delayed"]:
             _logger.info(
-                _("Paytrail payment for tx %s: set as pending", self.reference)
+                self.env._("Paytrail payment for tx %s: set as pending", self.reference)
             )
             self._set_pending()
         elif paytrail_status == "ok":
-            _logger.info(_("Paytrail payment for tx %s: set as done", self.reference))
+            _logger.info(
+                self.env._("Paytrail payment for tx %s: set as done", self.reference)
+            )
             self._set_done()
         else:
-            error = _(
+            error = self.env._(
                 "Received unrecognized response for Paytrail payment %s, set as error",
                 self.reference,
             )
@@ -156,7 +161,9 @@ class PaymentTransaction(models.Model):
         else:
             # If SO not found, check invoice second, if configured in settings.
             if not self.provider_id.paytrail_send_invoice_data_if_no_sale_order:
-                raise ValidationError(_("Only one sale order for payment is supported"))
+                raise ValidationError(
+                    self.env._("Only one sale order for payment is supported")
+                )
 
             _logger.debug(
                 "No invoice found and 'paytrail_send_invoice_data_if_no_sale_order' "
@@ -164,7 +171,9 @@ class PaymentTransaction(models.Model):
             )
 
             if len(transaction.invoice_ids) != 1:
-                raise ValidationError(_("Only one invoice for payment is supported"))
+                raise ValidationError(
+                    self.env._("Only one invoice for payment is supported")
+                )
 
             res = self._form_paytrail_payment_json_from_invoice(transaction, res)
 
@@ -184,7 +193,10 @@ class PaymentTransaction(models.Model):
             res = self._append_rounding_item(res, amount_difference)
         else:
             _logger.debug(
-                "Total amount and items's summed prices match, rounding item not needed."
+                """
+                Total amount and items's summed prices match, rounding item
+                not needed.
+                """
             )
 
         return json.dumps(res, separators=(",", ":"))
@@ -390,7 +402,7 @@ class PaymentTransaction(models.Model):
         _logger.debug(f"Payload: {payload}")
         _logger.debug(f"Headers: {headers}")
 
-        r = requests.post(uri, headers=headers, data=payload)
+        r = requests.post(uri, headers=headers, data=payload, timeout=600)
 
         if r.status_code == 201:
             data = r.json()
@@ -402,7 +414,7 @@ class PaymentTransaction(models.Model):
                 msg = f"Error: {res['message']}"
                 _logger.error(msg)
             except Exception as e:
-                msg = "Unknown error: %s" % e
+                msg = f"Unknown error: {e}"
                 _logger.error(msg)
 
         return res
@@ -438,9 +450,11 @@ class PaymentTransaction(models.Model):
     def _extract_reference(self, provider_code, payment_data):
         """Extract the transaction reference from the payment data.
 
-        This method must be overridden by providers to extract the reference from the payment data.
+        This method must be overridden by providers to extract the reference
+            from the payment data.
 
-        :param str provider_code: The code of the provider handling the transaction.
+        :param str provider_code: The code of the provider handling the
+            transaction.
         :param dict payment_data: The payment data sent by the provider.
         :return: The transaction reference.
         :rtype: str
@@ -448,14 +462,16 @@ class PaymentTransaction(models.Model):
         return payment_data.get("checkout-reference")
 
     def _extract_amount_data(self, payment_data):
-        """Extract the amount, currency and rounding precision from the payment data.
+        """Extract the amount, currency and rounding precision from the payment
+        data.
 
-        This method must be overridden by providers to parse the amount data from the payment data.
+        This method must be overridden by providers to parse the amount data
+            from the payment data.
         If the provider returns `None`, the amount validation is skipped.
 
         :param dict payment_data: The payment data sent by the provider.
-        :return: The amount data, in the {amount: float, currency_code: str, precision_digits: int}
-                 format.
+        :return: The amount data, in the {amount: float, currency_code: str,
+            precision_digits: int} format.
         :rtype: dict|None
         """
 
@@ -478,15 +494,17 @@ class PaymentTransaction(models.Model):
         }
 
     def _apply_updates(self, payment_data):
-        """Update the transaction based on the payment data received from the provider.
+        """Update the transaction based on the payment data received from the
+        provider.
 
-        The updates typically include the payment's state, the provider reference, and the selected
-        payment method.
+        The updates typically include the payment's state, the provider
+        reference, and the selected payment method.
 
-        This method should not be called directly; payment data should go through :meth:`_process`.
+        This method should not be called directly; payment data should go
+        through :meth:`_process`.
 
-        This method must be overridden by providers to update the transaction based on the payment
-        data.
+        This method must be overridden by providers to update the transaction
+        based on the payment data.
 
         Note: `self.ensure_one()` from :meth:`_process`
 
