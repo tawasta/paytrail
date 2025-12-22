@@ -1,6 +1,7 @@
-import logging
 import json
+import logging
 import uuid
+
 import requests
 
 from odoo import _, fields, models
@@ -427,9 +428,9 @@ class PaymentTransaction(models.Model):
         if token.get("status") == "error":
             raise ValidationError(token.get("message"))
         else:
-            paytrail_tx_values[
-                "paytrail_url"
-            ] = f"/payment/paytrail/redirect?url={token.get('href')}"
+            paytrail_tx_values["paytrail_url"] = (
+                f"/payment/paytrail/redirect?url={token.get('href')}"
+            )
 
         _logger.debug(f"TX values: {paytrail_tx_values}")
         return paytrail_tx_values
@@ -444,7 +445,7 @@ class PaymentTransaction(models.Model):
         :return: The transaction reference.
         :rtype: str
         """
-        return payment_data.get('checkout-reference')
+        return payment_data.get("checkout-reference")
 
     def _extract_amount_data(self, payment_data):
         """Extract the amount, currency and rounding precision from the payment data.
@@ -463,7 +464,9 @@ class PaymentTransaction(models.Model):
         # Reverse the string
         amount_float = payment_data["payment_data"]["checkout-amount"][::-1]
         # Insert . at decimal place
-        amount_float = amount_float[:precision_digits] + '.' + amount_float[precision_digits:]
+        amount_float = (
+            amount_float[:precision_digits] + "." + amount_float[precision_digits:]
+        )
         # Reverse back
         amount_float = amount_float[::-1]
         # Convert to float
@@ -471,7 +474,7 @@ class PaymentTransaction(models.Model):
         return {
             "amount": amount_float,
             "currency_code": "EUR",
-            "precision_digits": precision_digits
+            "precision_digits": precision_digits,
         }
 
     def _apply_updates(self, payment_data):
@@ -494,4 +497,3 @@ class PaymentTransaction(models.Model):
             return
 
         self._paytrail_form_validate(payment_data["payment_data"])
-

@@ -1,6 +1,7 @@
-import werkzeug
-import logging
 import hmac
+import logging
+
+import werkzeug
 from werkzeug.exceptions import Forbidden
 
 from odoo import http

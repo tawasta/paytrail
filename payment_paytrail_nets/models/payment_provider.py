@@ -1,10 +1,11 @@
-import logging
-import requests
-import uuid
-import hmac
 import hashlib
+import hmac
+import logging
+import uuid
 
-from odoo import api, fields, models, _
+import requests
+
+from odoo import _, fields, models
 
 _logger = logging.getLogger(__name__)
 
