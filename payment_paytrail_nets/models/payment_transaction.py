@@ -102,7 +102,7 @@ class PaymentTransaction(models.Model):
             language = (values["billing_partner"].lang or "")[0:2].upper()
 
         # Valid languages
-        if language in ["EN", "FI", "SE"]:
+        if language in ["EN", "FI", "SV"]:
             return language
         else:
             return "EN"
@@ -442,7 +442,7 @@ class PaymentTransaction(models.Model):
                 {
                     "unitPrice": round(line.price_total * 100 / quantity),
                     "units": quantity,
-                    "vatPercentage": int(vat_percent),
+                    "vatPercentage": vat_percent,
                     "productCode": line.product_id.default_code
                     or str(line.product_id.id),
                     "description": line.product_id.name,
