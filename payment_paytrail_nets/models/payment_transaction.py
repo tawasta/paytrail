@@ -99,13 +99,86 @@ class PaymentTransaction(models.Model):
         """
         language = False
         if "billing_partner" in values:
-            language = values["billing_partner"].lang[0:2].upper()
+            language = (values["billing_partner"].lang or "")[0:2].upper()
 
         # Valid languages
         if language in ["EN", "FI", "SE"]:
             return language
         else:
             return "EN"
+
+    def _get_paytrail_address(self, partner):
+        """
+        Build a Paytrail Address dict for the given partner.
+
+        Per Paytrail's API, streetAddress, postalCode, city and country are
+        all required once an address (delivery or invoicing) is being sent
+        for a partner. Raises if any of these is missing, since the
+        underlying data problem (incomplete partner address) must be fixed
+        before the payment can proceed.
+
+        :param partner: res.partner
+        :return: dict
+        """
+        country_code = partner.country_id.code
+        missing = [
+            label
+            for label, value in (
+                ("street", partner.street),
+                ("zip", partner.zip),
+                ("city", partner.city),
+                ("country", country_code),
+            )
+            if not value
+        ]
+        if missing:
+            raise ValidationError(
+                self.env._(
+                    "Paytrail: cannot process payment because %(partner)s "
+                    "is missing required address field(s): %(missing)s. "
+                    "Please fill them in on the contact before paying.",
+                    partner=partner.display_name,
+                    missing=", ".join(missing),
+                )
+            )
+
+        return {
+            "streetAddress": partner.street[0:50],
+            "postalCode": partner.zip[0:15],
+            "city": partner.city[0:30],
+            "country": country_code,
+        }
+
+    def _get_paytrail_customer(self, partner):
+        """
+        Build a Paytrail Customer dict for the given partner.
+
+        Per Paytrail's API, customer.email is required. Raises if it is
+        missing, since the underlying data problem (partner without an
+        email) must be fixed before the payment can proceed.
+
+        :param partner: res.partner
+        :return: dict
+        """
+        if not partner.email:
+            raise ValidationError(
+                self.env._(
+                    "Paytrail: cannot process payment because %(partner)s "
+                    "is missing an email address. Please fill it in on "
+                    "the contact before paying.",
+                    partner=partner.display_name,
+                )
+            )
+
+        first_name, last_name = payment_utils.split_partner_name(partner.name)
+
+        return {
+            "email": partner.email,
+            "firstName": (first_name or "")[0:50],
+            "lastName": (last_name or "")[0:50],
+            "phone": partner.phone or "",
+            "vatId": partner.vat or "",
+        }
 
     def _form_paytrail_payment_json(self, values):
         """
@@ -237,10 +310,6 @@ class PaymentTransaction(models.Model):
         order = transaction.sale_order_ids[0]
         items = self._get_paytrail_items_from_sale_order(order)
 
-        # Customer
-        partner = order.partner_id
-        first_name, last_name = payment_utils.split_partner_name(partner.name)
-
         res.update(
             {
                 "amount": payment_utils.to_minor_currency_units(
@@ -249,27 +318,13 @@ class PaymentTransaction(models.Model):
                 "currency": order.currency_id.name,
                 "orderId": order.name,
                 "items": items,
-                "customer": {
-                    "email": partner.email,
-                    "firstName": first_name,
-                    "lastName": last_name,
-                    "phone": partner.phone or "",
-                    "vatId": partner.vat or "",
-                },
-                "deliveryAddress": {
-                    "streetAddress": order.partner_shipping_id.street[0:50],
-                    "postalCode": order.partner_shipping_id.zip,
-                    "city": order.partner_shipping_id.city[0:30],
-                    "country": order.partner_shipping_id.country_id.code,
-                },
-                "invoicingAddress": {
-                    "streetAddress": order.partner_invoice_id.street[0:50],
-                    "postalCode": order.partner_invoice_id.zip,
-                    "city": order.partner_invoice_id.city[0:30],
-                    "country": order.partner_invoice_id.country_id.code,
-                },
+                "customer": self._get_paytrail_customer(order.partner_id),
             }
         )
+
+        res["deliveryAddress"] = self._get_paytrail_address(order.partner_shipping_id)
+        res["invoicingAddress"] = self._get_paytrail_address(order.partner_invoice_id)
+
         return res
 
     def _form_paytrail_payment_json_from_invoice(self, transaction, res):
@@ -284,10 +339,6 @@ class PaymentTransaction(models.Model):
         invoice = transaction.invoice_ids[0]
         items = self._get_paytrail_items_from_invoice(invoice)
 
-        # Customer
-        partner = invoice.partner_id
-        first_name, last_name = payment_utils.split_partner_name(partner.name)
-
         # For delivery address, fall back to partner, if separate delivery address
         # field is not set
         shipping_partner = invoice.partner_shipping_id or invoice.partner_id
@@ -300,27 +351,13 @@ class PaymentTransaction(models.Model):
                 "currency": invoice.currency_id.name,
                 "orderId": invoice.name,
                 "items": items,
-                "customer": {
-                    "email": partner.email,
-                    "firstName": first_name,
-                    "lastName": last_name,
-                    "phone": partner.phone or "",
-                    "vatId": partner.vat or "",
-                },
-                "deliveryAddress": {
-                    "streetAddress": shipping_partner.street[0:50],
-                    "postalCode": shipping_partner.zip,
-                    "city": shipping_partner.city[0:30],
-                    "country": shipping_partner.country_id.code,
-                },
-                "invoicingAddress": {
-                    "streetAddress": invoice.partner_id.street[0:50],
-                    "postalCode": invoice.partner_id.zip,
-                    "city": invoice.partner_id.city[0:30],
-                    "country": invoice.partner_id.country_id.code,
-                },
+                "customer": self._get_paytrail_customer(invoice.partner_id),
             }
         )
+
+        res["deliveryAddress"] = self._get_paytrail_address(shipping_partner)
+        res["invoicingAddress"] = self._get_paytrail_address(invoice.partner_id)
+
         return res
 
     def _get_paytrail_items_from_sale_order(self, order):
@@ -332,8 +369,24 @@ class PaymentTransaction(models.Model):
         """
         items = []
         for line in order.order_line:
-            vat_percent = sum(line.tax_ids.mapped("amount"))
+            # Section/note lines have no product and always have
+            # product_uom_qty = 0, so they must never reach the division
+            # below.
+            if line.display_type:
+                continue
+
             quantity = int(round(line.product_uom_qty, 0))
+            if quantity <= 0:
+                raise ValidationError(
+                    self.env._(
+                        "Paytrail: cannot process payment because order "
+                        "line %(line)s has a quantity that rounds to zero "
+                        "or less.",
+                        line=line.display_name,
+                    )
+                )
+
+            vat_percent = sum(line.tax_ids.mapped("amount"))
             items.append(
                 {
                     "unitPrice": round(line.price_total * 100 / quantity),
@@ -342,7 +395,9 @@ class PaymentTransaction(models.Model):
                     "productCode": line.product_id.default_code
                     or str(line.product_id.id),
                     "description": line.product_id.name or "",
-                    "category": line.product_id.categ_id.display_name or "",
+                    "category": (line.product_id.categ_id.display_name or "")[
+                        0:100
+                    ],
                     # Shop-in-Shop payments
                     # "orderId":
                     # "stamp":
@@ -363,12 +418,26 @@ class PaymentTransaction(models.Model):
 
         items = []
         for line in invoice.invoice_line_ids:
-            # Ignore note lines
-            if line.display_type == "line_note":
+            # account.move.line.display_type is required and 'product' for
+            # normal lines (unlike sale.order.line, where it's False) -
+            # everything else (section/subsection/note/...) has no product
+            # and always has quantity = False, so it must never reach the
+            # division below.
+            if line.display_type != "product":
                 continue
 
-            vat_percent = sum(line.tax_ids.mapped("amount"))
             quantity = int(round(line.quantity, 0))
+            if quantity <= 0:
+                raise ValidationError(
+                    self.env._(
+                        "Paytrail: cannot process payment because invoice "
+                        "line %(line)s has a quantity that rounds to zero "
+                        "or less.",
+                        line=line.display_name,
+                    )
+                )
+
+            vat_percent = sum(line.tax_ids.mapped("amount"))
             items.append(
                 {
                     "unitPrice": round(line.price_total * 100 / quantity),
@@ -377,7 +446,9 @@ class PaymentTransaction(models.Model):
                     "productCode": line.product_id.default_code
                     or str(line.product_id.id),
                     "description": line.product_id.name,
-                    "category": line.product_id.categ_id.display_name,
+                    "category": (line.product_id.categ_id.display_name or "")[
+                        0:100
+                    ],
                     # Shop-in-Shop payments
                     # "orderId":
                     # "stamp":
