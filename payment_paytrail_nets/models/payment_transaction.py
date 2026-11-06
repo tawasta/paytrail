@@ -92,8 +92,7 @@ class PaymentTransaction(models.Model):
         :param values: dict
         :return: string, language code
         """
-        # sudo: the payer (portal or public) may not be allowed to read the partner
-        partner = self.env["res.partner"].sudo().browse(values.get("partner_id"))
+        partner = self.env["res.partner"].browse(values.get("partner_id"))
         language = partner.lang[0:2].upper() if partner.lang else False
 
         # Valid languages
