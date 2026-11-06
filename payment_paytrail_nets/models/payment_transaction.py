@@ -94,15 +94,11 @@ class PaymentTransaction(models.Model):
         :param values: dict
         :return: string, language code
         """
-        language = False
-        if "billing_partner" in values:
-            language = values["billing_partner"].lang[0:2].upper()
+        partner = self.env["res.partner"].browse(values.get("partner_id"))
+        language = partner.lang[0:2].upper() if partner.lang else False
 
         # Valid languages
-        if language in ["EN", "FI", "SE"]:
-            return language
-        else:
-            return "EN"
+        return language if language in ("EN", "FI", "SV") else "EN"
 
     def _form_paytrail_payment_json(self, values):
         """
