@@ -96,10 +96,7 @@ class PaymentTransaction(models.Model):
         language = partner.lang[0:2].upper() if partner.lang else False
 
         # Valid languages
-        if language in ["EN", "FI", "SV"]:
-            return language
-        else:
-            return "EN"
+        return language if language in ("EN", "FI", "SV") else "EN"
 
     def _form_paytrail_payment_json(self, values):
         """
