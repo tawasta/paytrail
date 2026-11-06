@@ -1,10 +1,11 @@
-import logging
-import requests
-import uuid
-import hmac
 import hashlib
+import hmac
+import logging
+import uuid
 
-from odoo import api, fields, models, _
+import requests
+
+from odoo import _, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -93,7 +94,9 @@ class PaymentProvider(models.Model):
 
         headers = self._get_paytrail_headers("")
         r = requests.get(
-            "https://services.paytrail.com/merchants/payment-providers", headers=headers
+            "https://services.paytrail.com/merchants/payment-providers",
+            headers=headers,
+            timeout=30,
         )
 
         if r.status_code == 200:
