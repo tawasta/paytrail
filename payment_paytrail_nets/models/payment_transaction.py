@@ -1,6 +1,7 @@
-import logging
 import json
+import logging
 import uuid
+
 import requests
 
 from odoo import _, fields, models
@@ -8,7 +9,8 @@ from odoo.exceptions import ValidationError
 from odoo.http import request
 
 from odoo.addons.payment import utils as payment_utils
-from odoo.addons.payment_paytrail_nets.controllers.main import PaytrailController
+
+from ..controllers.main import PaytrailController
 
 _logger = logging.getLogger(__name__)
 
@@ -92,15 +94,11 @@ class PaymentTransaction(models.Model):
         :param values: dict
         :return: string, language code
         """
-        language = False
-        if "billing_partner" in values:
-            language = values["billing_partner"].lang[0:2].upper()
+        partner = self.env["res.partner"].browse(values.get("partner_id"))
+        language = partner.lang[0:2].upper() if partner.lang else False
 
         # Valid languages
-        if language in ["EN", "FI", "SE"]:
-            return language
-        else:
-            return "EN"
+        return language if language in ("EN", "FI", "SV") else "EN"
 
     def _form_paytrail_payment_json(self, values):
         """
@@ -183,7 +181,8 @@ class PaymentTransaction(models.Model):
             res = self._append_rounding_item(res, amount_difference)
         else:
             _logger.debug(
-                "Total amount and items's summed prices match, rounding item not needed."
+                "Total amount and items's summed prices match, "
+                "rounding item not needed."
             )
 
         return json.dumps(res, separators=(",", ":"))
@@ -389,7 +388,7 @@ class PaymentTransaction(models.Model):
         _logger.debug(f"Payload: {payload}")
         _logger.debug(f"Headers: {headers}")
 
-        r = requests.post(uri, headers=headers, data=payload)
+        r = requests.post(uri, headers=headers, data=payload, timeout=30)
 
         if r.status_code == 201:
             data = r.json()
@@ -452,7 +451,7 @@ class PaymentTransaction(models.Model):
         txn_id = notification_data.get("checkout-transaction-id")
         if not reference or not txn_id:
             raise ValidationError(
-                "Paytrail: "
+                _("Paytrail: ")
                 + _(
                     "Received data with missing reference %(r)s or txn_id %(t)s.",
                     r=reference,
@@ -465,7 +464,7 @@ class PaymentTransaction(models.Model):
         )
         if not tx:
             raise ValidationError(
-                "Paytrail: "
+                _("Paytrail: ")
                 + _("No transaction found matching reference %s.", reference)
             )
 
