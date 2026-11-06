@@ -21,7 +21,7 @@
 {
     "name": "Payment Provider: Paytrail",
     "summary": "Add Paytrail as a payment provider",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "development_status": "Production/Stable",
     "category": "Accounting/Payment Providers",
     "website": "https://github.com/tawasta/paytrail",

@@ -12,6 +12,6 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[payment_paytrail_nets](payment_paytrail_nets/) | 19.0.1.0.0 |  | Add Paytrail as a payment provider
+[payment_paytrail_nets](payment_paytrail_nets/) | 19.0.1.0.1 |  | Add Paytrail as a payment provider
 
 [//]: # (end addons)

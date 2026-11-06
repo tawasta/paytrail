@@ -97,15 +97,11 @@ class PaymentTransaction(models.Model):
         :param values: dict
         :return: string, language code
         """
-        language = False
-        if "billing_partner" in values:
-            language = (values["billing_partner"].lang or "")[0:2].upper()
+        partner = self.env["res.partner"].browse(values.get("partner_id"))
+        language = (partner.lang or "")[0:2].upper()
 
         # Valid languages
-        if language in ["EN", "FI", "SV"]:
-            return language
-        else:
-            return "EN"
+        return language if language in ("EN", "FI", "SV") else "EN"
 
     def _get_paytrail_address(self, partner):
         """
@@ -395,9 +391,7 @@ class PaymentTransaction(models.Model):
                     "productCode": line.product_id.default_code
                     or str(line.product_id.id),
                     "description": line.product_id.name or "",
-                    "category": (line.product_id.categ_id.display_name or "")[
-                        0:100
-                    ],
+                    "category": (line.product_id.categ_id.display_name or "")[0:100],
                     # Shop-in-Shop payments
                     # "orderId":
                     # "stamp":
@@ -446,9 +440,7 @@ class PaymentTransaction(models.Model):
                     "productCode": line.product_id.default_code
                     or str(line.product_id.id),
                     "description": line.product_id.name,
-                    "category": (line.product_id.categ_id.display_name or "")[
-                        0:100
-                    ],
+                    "category": (line.product_id.categ_id.display_name or "")[0:100],
                     # Shop-in-Shop payments
                     # "orderId":
                     # "stamp":
