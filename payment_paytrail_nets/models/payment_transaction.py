@@ -96,10 +96,34 @@ class PaymentTransaction(models.Model):
         if "billing_partner" in values:
             language = values["billing_partner"].lang[0:2].upper()
 
+        # sudo: only for the log line, the payer may not be allowed to read the partner
+        partner = self.env["res.partner"].sudo().browse(values.get("partner_id"))
+        _logger.info(
+            "Paytrail language for tx %s: billing_partner in values=%s, "
+            "language from billing_partner=%s, partner_id=%s, partner lang=%s, "
+            "env lang=%s, values keys=%s",
+            self.reference,
+            "billing_partner" in values,
+            language,
+            partner.id,
+            partner.lang,
+            self.env.lang,
+            sorted(values),
+        )
+
         # Valid languages
         if language in ["EN", "FI", "SE"]:
+            _logger.info(
+                "Paytrail language for tx %s: sending %s", self.reference, language
+            )
             return language
         else:
+            _logger.info(
+                "Paytrail language for tx %s: %r is not a valid language, "
+                "falling back to EN",
+                self.reference,
+                language,
+            )
             return "EN"
 
     def _form_paytrail_payment_json(self, values):
