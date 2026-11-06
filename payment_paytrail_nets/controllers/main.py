@@ -1,6 +1,7 @@
-import werkzeug
-import logging
 import hmac
+import logging
+
+import werkzeug
 from werkzeug.exceptions import Forbidden
 
 from odoo import http
@@ -38,8 +39,9 @@ class PaytrailController(http.Controller):
         """Check that the received signature matches the expected one.
 
         :param dict notification_data: The notification data
-        :param recordset tx_sudo: The sudoed transaction referenced by the notification data, as a
-                                  `payment.transaction` record
+        :param recordset tx_sudo:
+            The sudoed transaction referenced by the notification data, as a
+            `payment.transaction` record
         :return: None
         :raise: :class:`werkzeug.exceptions. Forbidden` if the signatures don't match
         """
@@ -49,7 +51,8 @@ class PaytrailController(http.Controller):
             _logger.warning("Received notification with missing signature")
             raise Forbidden()
 
-        # Compare the received signature with the expected signature computed from the data
+        # Compare the received signature with
+        # the expected signature computed from the data
         expected_signature = tx_sudo.provider_id._paytrail_compute_signature(
             notification_data, ""
         )
