@@ -92,27 +92,23 @@ class PaymentTransaction(models.Model):
         :param values: dict
         :return: string, language code
         """
-        language = False
-        if "billing_partner" in values:
-            language = values["billing_partner"].lang[0:2].upper()
-
-        # sudo: only for the log line, the payer may not be allowed to read the partner
+        # sudo: the payer (portal or public) may not be allowed to read the partner
         partner = self.env["res.partner"].sudo().browse(values.get("partner_id"))
+        language = partner.lang[0:2].upper() if partner.lang else False
+
         _logger.info(
-            "Paytrail language for tx %s: billing_partner in values=%s, "
-            "language from billing_partner=%s, partner_id=%s, partner lang=%s, "
-            "env lang=%s, values keys=%s",
+            "Paytrail language for tx %s: partner_id=%s, partner lang=%s, "
+            "language from partner=%s, env lang=%s, values keys=%s",
             self.reference,
-            "billing_partner" in values,
-            language,
             partner.id,
             partner.lang,
+            language,
             self.env.lang,
             sorted(values),
         )
 
         # Valid languages
-        if language in ["EN", "FI", "SE"]:
+        if language in ["EN", "FI", "SV"]:
             _logger.info(
                 "Paytrail language for tx %s: sending %s", self.reference, language
             )
